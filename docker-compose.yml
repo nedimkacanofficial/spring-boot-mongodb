@@ -1,0 +1,12 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    container_name: springboot-mongodb
+    ports:
+      - "27017:27017"  # MongoDB default port
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ndmkcn  # Root kullanıcı adı
+      MONGO_INITDB_ROOT_PASSWORD: 1234  # Root kullanıcı parolası
+    volumes:
+      - ./data:/data/db  # MongoDB verilerini saklamak için bir volume
