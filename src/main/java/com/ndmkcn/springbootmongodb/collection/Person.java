@@ -30,7 +30,7 @@ public class Person {
     private Integer age;
     @Field(name = "hobbies")
     private List<String> hobbies;
-    @Field(name = "address")
+    @Field(name = "addresses")
     // @DBRef relations
-    private Address address;
+    private List<Address> addresses;
 }

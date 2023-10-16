@@ -4,12 +4,12 @@ import com.ndmkcn.springbootmongodb.collection.Person;
 import com.ndmkcn.springbootmongodb.dto.PersonDTO;
 import com.ndmkcn.springbootmongodb.service.PersonService;
 import lombok.RequiredArgsConstructor;
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,5 +67,10 @@ public class PersonController {
     ) {
         Pageable pageable= PageRequest.of(page,size);
         return new ResponseEntity<>(personService.searchPerson(name,minAge,maxAge,city,pageable),HttpStatus.OK);
+    }
+    @GetMapping(path = "/oldestPerson")
+    public ResponseEntity<List<Document>> getOldestPerson() {
+        List<Document> documents=this.personService.getOldestPersonByCity();
+        return new ResponseEntity<>(documents,HttpStatus.OK);
     }
 }

@@ -13,7 +13,7 @@ public class PersonMapper {
         person.setLastName(personDTO.getLastName());
         person.setAge(personDTO.getAge());
         person.setHobbies(personDTO.getHobbies());
-        person.setAddress(personDTO.getAddress());
+        person.setAddresses(personDTO.getAddresses());
         return person;
     }
     public static PersonDTO toDTO(Person person) {
@@ -23,7 +23,7 @@ public class PersonMapper {
         personDTO.setLastName(person.getLastName());
         personDTO.setAge(person.getAge());
         personDTO.setHobbies(person.getHobbies());
-        personDTO.setAddress(person.getAddress());
+        personDTO.setAddresses(person.getAddresses());
         return personDTO;
     }
     public static List<Person> toEntityList(List<PersonDTO> personDTOList) {
