@@ -16,5 +16,5 @@ public class PersonDTO {
     private String lastName;
     private Integer age;
     private List<String> hobbies;
-    private Address address;
+    private List<Address> addresses;
 }

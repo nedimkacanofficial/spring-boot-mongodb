@@ -5,11 +5,17 @@ import com.ndmkcn.springbootmongodb.dto.PersonDTO;
 import com.ndmkcn.springbootmongodb.mapper.PersonMapper;
 import com.ndmkcn.springbootmongodb.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.GroupOperation;
+import org.springframework.data.mongodb.core.aggregation.SortOperation;
+import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -68,5 +74,14 @@ public class PersonService {
                 ), pageable, () -> this.mongoTemplate.count(query.skip(0).limit(0),Person.class)
         );
         return personPage;
+    }
+
+    public List<Document> getOldestPersonByCity() {
+        UnwindOperation unwindOperation= Aggregation.unwind("addresses");
+        SortOperation sortOperation=Aggregation.sort(Sort.Direction.DESC,"age");
+        GroupOperation groupOperation=Aggregation.group("addresses.city").first(Aggregation.ROOT).as("oldestPerson");
+        Aggregation aggregation=Aggregation.newAggregation(unwindOperation,sortOperation,groupOperation);
+        List<Document> person=this.mongoTemplate.aggregate(aggregation,Person.class,Document.class).getMappedResults();
+        return person;
     }
 }
